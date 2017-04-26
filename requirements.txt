@@ -1,3 +1,4 @@
 git+https://github.com/dabeaz/curio#egg=curio
 git+https://github.com/SunDwarf/curious#egg=curious
 Earl-ETF==2.0.1
+lru-dict==1.1.6
