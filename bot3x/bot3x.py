@@ -64,6 +64,9 @@ class Bot3X(curious.core.client.Client):
         except CancelledError:
             pass
 
+        except Exception as e:
+            bot3x.logex(e, tag="3X GAME")
+
         finally:
             bot3x.log("3X Game closed", tag="3X GAME")
 
@@ -79,10 +82,7 @@ class Bot3X(curious.core.client.Client):
     async def on_ready(self, ctx: EventContext):
         bot3x.log("Logged in as {}".format(self.user.name), tag="INSTANCE")
 
-        # coro = self.lyric_rotator()
-        # self.coro_cleanup(coro)
-        # task = self.loop.create_task(coro)
-        # task.add_done_callback(self._restart_lyrics)
+        curio.spawn(self.status3x())
 
     # Guild init
     @event("guild_streamed")
@@ -117,8 +117,8 @@ class Bot3X(curious.core.client.Client):
         try:
             await chn.send(gst["welcome"].format(member.name))
 
-        finally:
-            pass
+        except Exception as e:
+            bot3x.logex(e, tag="GREETER-W")
 
     @event("member_leave")
     async def on_member_remove(self, ctx: EventContext, member: Member):
@@ -140,5 +140,5 @@ class Bot3X(curious.core.client.Client):
         try:
             await chn.send(gst["farewell"].format(member.user.username))
 
-        finally:
-            pass
+        except Exception as e:
+            bot3x.logex(e, tag="GREETER-L")

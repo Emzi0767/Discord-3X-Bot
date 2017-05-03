@@ -5,7 +5,7 @@ import bot3x
 
 
 def main():
-    bot3x.log("PAM version {} booting".format(bot3x.__version__), tag="3X LDR")
+    bot3x.log("3X version {} booting".format(bot3x.__version__), tag="3X LDR")
 
     bot3x.log("Loading config", tag="3X LDR")
     with open("config.json", "r") as f:

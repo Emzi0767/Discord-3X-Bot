@@ -6,7 +6,7 @@ A Discord bot by Emzi0767. Just to have another greeting message.
 
 __name__ = "bot3x"
 __author__ = "Emzi0767"
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __license__ = "Apache License 2.0"
 __copyright__ = "Copyright 2017 Emzi0767"
 
@@ -19,3 +19,4 @@ from .bot3xcmd import Bot3XCommands
 
 # utilities
 from .utils import log
+from .utils import logex
