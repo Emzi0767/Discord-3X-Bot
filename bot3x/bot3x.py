@@ -6,6 +6,7 @@ import curio
 import curious.core.client
 import bot3x
 from curious.core.event import event, EventContext
+from curious.core.state import State
 from curious.commands.context import Context
 from curious.dataclasses.presence import Game
 from curious.dataclasses.member import Member
@@ -40,6 +41,7 @@ class Bot3X(curious.core.client.Client):
     def __init__(self, **kwargs):
         super().__init__(command_prefix="3x:")
         self.guild_settings = kwargs.get("guild_settings", {})
+        self._status_task = None
 
     def save_settings(self):
         gst = json.dumps(self.guild_settings)
@@ -51,11 +53,11 @@ class Bot3X(curious.core.client.Client):
             lop = datetime.datetime(2015, 1, 1, 0, 0, 0, tzinfo=datetime.timezone.utc)
             bot3x.log("3X Game initialized", tag="3X GAME")
 
-            while not self.is_closed:
+            while True:
                 cop = datetime.datetime.now(datetime.timezone.utc)
                 tdelta = cop - lop
 
-                if tdelta.minutes >= 20:
+                if tdelta.seconds >= 1200:
                     lop = cop
                     await self.change_status(game=Game(name="Hello, sir!"))
 
@@ -81,8 +83,7 @@ class Bot3X(curious.core.client.Client):
     @event("ready")
     async def on_ready(self, ctx: EventContext):
         bot3x.log("Logged in as {}".format(self.user.name), tag="INSTANCE")
-
-        curio.spawn(self.status3x())
+        self._status_task = await curio.spawn(self.status3x, daemon=True)
 
     # Guild init
     @event("guild_streamed")
