@@ -24,7 +24,7 @@ def is_authorized(ctx: Context):
     rls = usr.roles
     has = False
     for xrl in rls:
-        if xrl.id == 214796473689178133:
+        if xrl.id == 280426472072544257:
             has = True
             break
 
@@ -109,8 +109,8 @@ class Bot3X(curious.core.client.Client):
             return
 
         for xch in gld.channels:
-            if xch.id == gst["channel"]:
-                chn = xch
+            if xch == gst["channel"]:
+                chn = gld.channels[xch]
                 break
         if chn is None:
             return
@@ -135,8 +135,8 @@ class Bot3X(curious.core.client.Client):
             return
 
         for xch in gld.channels:
-            if xch.id == gst["channel"]:
-                chn = xch
+            if xch == gst["channel"]:
+                chn = gld.channels[xch]
                 break
         if chn is None:
             return

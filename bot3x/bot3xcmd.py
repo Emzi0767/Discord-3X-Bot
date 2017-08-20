@@ -24,10 +24,11 @@ class Bot3XCommands(Plugin):
 
         gst = gsts[str(ctx.guild.id)]
         gst["enabled"] = True
+        gst["channel"] = chn.id
 
         ctx.bot.save_settings()
 
-        await ctx.channel.send("👌")
+        await ctx.channel.send(f":ok_hand: Enabled in <#{chn.id}>.")
 
     @command(name="disable", description="Disables the 3X greeter", invokation_checks=[is_authorized], aliases=["off"])
     async def _disable(self, ctx: Context):
