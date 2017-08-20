@@ -6,7 +6,6 @@ import curio
 import curious.core.client
 import bot3x
 from curious.core.event import event, EventContext
-from curious.core.state import State
 from curious.commands.context import Context
 from curious.dataclasses.presence import Game
 from curious.dataclasses.member import Member
@@ -33,8 +32,6 @@ def is_authorized(ctx: Context):
         return False
 
     return True
-
-
 
 
 class Bot3X(curious.core.client.Client):
@@ -108,10 +105,13 @@ class Bot3X(curious.core.client.Client):
             return
 
         gst = self.guild_settings[str(gld.id)]
-        if not gst["enabled"]:
+        if not gst["enabled"] or not gst["channel"]:
             return
 
-        chn = gld.default_channel
+        for xch in gld.channels:
+            if xch.id == gst["channel"]:
+                chn = xch
+                break
         if chn is None:
             return
 
@@ -131,10 +131,13 @@ class Bot3X(curious.core.client.Client):
             return
 
         gst = self.guild_settings[str(gld.id)]
-        if not gst["enabled"]:
+        if not gst["enabled"] or not gst["channel"]:
             return
 
-        chn = gld.default_channel
+        for xch in gld.channels:
+            if xch.id == gst["channel"]:
+                chn = xch
+                break
         if chn is None:
             return
 

@@ -2,6 +2,7 @@ from bot3x import is_authorized
 from curious.commands import command
 from curious.commands.plugin import Plugin
 from curious.commands.context import Context
+from curious.dataclasses.channel import Channel
 
 
 class Bot3XCommands(Plugin):
@@ -12,14 +13,14 @@ class Bot3XCommands(Plugin):
     def module_name(self):
         return "Core"
 
-    @command(name="enable", description="Enables the 3X greeter", invokation_checks=[is_authorized], aliases=["on"])
-    async def _enable(self, ctx: Context):
+    @command(name="enable", description="Enables the 3X greeter in specified channel", invokation_checks=[is_authorized], aliases=["on"])
+    async def _enable(self, ctx: Context, chn: Channel):
         """
         Enables the 3X greeter
         """
         gsts = ctx.bot.guild_settings
         if str(ctx.guild.id) not in gsts:
-            gsts[str(ctx.guild.id)] = {"enabled": True, "welcome": "Greetings, **{}**!", "farewell": "Bye, **{}**!"}
+            gsts[str(ctx.guild.id)] = {"enabled": True, "welcome": "Greetings, **{}**!", "farewell": "Bye, **{}**!", "channel": chn.id}
 
         gst = gsts[str(ctx.guild.id)]
         gst["enabled"] = True
@@ -35,7 +36,7 @@ class Bot3XCommands(Plugin):
         """
         gsts = ctx.bot.guild_settings
         if str(ctx.guild.id) not in gsts:
-            gsts[str(ctx.guild.id)] = {"enabled": False, "welcome": "Greetings, **{}**!", "farewell": "Bye, **{}**!"}
+            gsts[str(ctx.guild.id)] = {"enabled": False, "welcome": "Greetings, **{}**!", "farewell": "Bye, **{}**!", "channel": None}
 
         gst = gsts[str(ctx.guild.id)]
         gst["enabled"] = False
@@ -51,7 +52,7 @@ class Bot3XCommands(Plugin):
         """
         gsts = ctx.bot.guild_settings
         if str(ctx.guild.id) not in gsts:
-            gsts[str(ctx.guild.id)] = {"enabled": False, "welcome": "Greetings, **{}**!", "farewell": "Bye, **{}**!"}
+            gsts[str(ctx.guild.id)] = {"enabled": False, "welcome": "Greetings, **{}**!", "farewell": "Bye, **{}**!", "channel": None}
 
         gst = gsts[str(ctx.guild.id)]
         gst["welcome"] = msg
@@ -67,7 +68,7 @@ class Bot3XCommands(Plugin):
         """
         gsts = ctx.bot.guild_settings
         if str(ctx.guild.id) not in gsts:
-            gsts[str(ctx.guild.id)] = {"enabled": False, "welcome": "Greetings, **{}**!", "farewell": "Bye, **{}**!"}
+            gsts[str(ctx.guild.id)] = {"enabled": False, "welcome": "Greetings, **{}**!", "farewell": "Bye, **{}**!", "channel": None}
 
         gst = gsts[str(ctx.guild.id)]
         gst["farewell"] = msg
